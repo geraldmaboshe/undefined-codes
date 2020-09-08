@@ -7,12 +7,14 @@ const {
 	getComment,
 } = require('../controllers/comments');
 
-router.route('/:blogId/comments').get(getComments).post(createComment);
+const { protect, authorize } = require('../middleware/auth.middleware');
+
+router.post('/:blogId/comments', createComment);
 
 router
 	.route('/:blogId/comments:/commentId')
 	.get(getComment)
-	.patch(editComment)
-	.delete(deleteComment);
+	// .patch(editComment)
+	.delete(protect, authorize('admin'), deleteComment);
 
 module.exports = router;

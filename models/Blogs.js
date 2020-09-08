@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./User');
 
 const BlogSchema = new mongoose.Schema(
 	{
@@ -25,6 +26,11 @@ const BlogSchema = new mongoose.Schema(
 			type: mongoose.Schema.ObjectId,
 			ref: 'Comment',
 		},
+		user: {
+			type: mongoose.Schema.ObjectId,
+			ref: User,
+			required: true,
+		},
 	},
 	{
 		toJSON: { virtuals: true },
@@ -32,7 +38,7 @@ const BlogSchema = new mongoose.Schema(
 	}
 );
 
-BlogSchema.virtual('comment', {
+BlogSchema.virtual('blog_comments', {
 	ref: 'Comment',
 	localField: '_id',
 	foreignField: 'blog',

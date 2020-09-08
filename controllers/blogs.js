@@ -6,7 +6,7 @@ const asyncHandler = require('../middleware/async');
 //@route    GET /api/v1/blogs
 //@access   Public
 exports.getBlogs = asyncHandler(async (req, res, next) => {
-	const blogs = await Blog.find(req.query).populate('comments');
+	const blogs = await Blog.find(req.query).populate('blog_comments');
 	const total = blogs.length;
 	res.status(200).json({ success: true, total: total, data: blogs });
 });
@@ -16,7 +16,7 @@ exports.getBlogs = asyncHandler(async (req, res, next) => {
 //@access   Public
 exports.getBlog = asyncHandler(async (req, res, next) => {
 	const blogid = req.params.id;
-	const blog = await Blog.findById(blogid);
+	const blog = await Blog.findById(blogid).populate('blog_comments');
 	if (!blog) {
 		return next(
 			new ErrorResponse(`Blog not found with the id of ${req.params.id}`, 404)
@@ -29,6 +29,8 @@ exports.getBlog = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/blogs/
 //@access   Private
 exports.createBlog = asyncHandler(async (req, res, next) => {
+	//add user
+	req.body.user = req.user.id;
 	const blog = await Blog.create(req.body);
 
 	res.status(200).json({ success: true, msg: blog });

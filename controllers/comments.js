@@ -3,21 +3,6 @@ const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 const { json } = require('express');
 
-//@desc     Get all comments
-//@route    GET /api/v1/:blogsId/comments
-//@access   Public
-
-exports.getComments = asyncHandler(async (req, res, next) => {
-	const blogId = req.params.blogId;
-	console.log(blogId);
-
-	const comments = await Comment.find({ blog: req.params.blogId });
-	const total = comments.length;
-
-	res.status(200).json({ success: true, total: total, comments: comments });
-	next();
-});
-
 //@desc     Get Single comment
 //@route    GET /api/v1/:blogsId/comments/commentid
 //@access   Public
@@ -55,6 +40,10 @@ exports.editComment = asyncHandler(async (req, res, next) => {
 		new: true,
 		runValidators: true,
 	});
+
+	if (!Comment) {
+		return next(new ErrorResponse('Comment not found', 404));
+	}
 	res.status(200).json({ success: true, comment: comment });
 
 	next();

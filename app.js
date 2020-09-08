@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 8000;
 const morgan = require('morgan');
 const cors = require('cors');
 const errorHandler = require('./middleware/error');
+const cookieParser = require('cookie-parser');
 
 const dotenv = require('dotenv').config({ path: './config/config.env' });
 
@@ -14,9 +15,13 @@ connectDB();
 //Route files
 const blogRoutes = require('./routes/blogs');
 const commentRoutes = require('./routes/comments');
+const authRoutes = require('./routes/auth');
 
 //body parser
 app.use(express.json());
+
+//cookie parser
+app.use(cookieParser());
 
 var corsOptions = {
 	origin: 'http://localhost:3000',
@@ -31,6 +36,7 @@ if (process.env.NODE_ENV === 'development') {
 //mount routers
 app.use('/api/v1/blogs', blogRoutes);
 app.use('/api/v1', commentRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 //error handling middleware
 app.use(errorHandler);

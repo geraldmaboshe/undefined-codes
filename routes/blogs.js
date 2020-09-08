@@ -8,7 +8,16 @@ const {
 	deleteBlog,
 } = require('../controllers/blogs');
 
-router.route('/').get(getBlogs).post(createBlog);
-router.route('/:id').get(getBlog).patch(updateBlog).delete(deleteBlog);
+const { protect, authorize } = require('../middleware/auth.middleware');
+
+router
+	.route('/')
+	.get(getBlogs)
+	.post(protect, authorize('publisher', 'admin'), createBlog);
+router
+	.route('/:id')
+	.get(getBlog)
+	.patch(protect, authorize('publisher', 'admin'), updateBlog)
+	.delete(protect, authorize('publisher', 'admin'), deleteBlog);
 
 module.exports = router;
