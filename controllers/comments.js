@@ -24,6 +24,7 @@ exports.getComment = asyncHandler(async (req, res, next) => {
 //@route    POST /api/v1/:blogsId/comments
 //@access   Public
 exports.createComment = asyncHandler(async (req, res, next) => {
+	req.body.blog = req.params.blogId;
 	const data = req.body;
 	const comment = await Comment.create(data);
 

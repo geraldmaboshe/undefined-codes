@@ -8,7 +8,7 @@ const asyncHandler = require('../middleware/async');
 exports.getBlogs = asyncHandler(async (req, res, next) => {
 	const blogs = await Blog.find(req.query).populate('blog_comments');
 	const total = blogs.length;
-	res.status(200).json({ success: true, total: total, data: blogs });
+	res.status(200).json({ success: true, total: total, blogs: blogs });
 });
 
 //@desc     Get single blog
@@ -22,7 +22,7 @@ exports.getBlog = asyncHandler(async (req, res, next) => {
 			new ErrorResponse(`Blog not found with the id of ${req.params.id}`, 404)
 		);
 	}
-	res.status(200).json({ success: true, msg: blog });
+	res.status(200).json({ success: true, blog: blog });
 });
 
 //@desc     Create blog
@@ -33,7 +33,7 @@ exports.createBlog = asyncHandler(async (req, res, next) => {
 	req.body.user = req.user.id;
 	const blog = await Blog.create(req.body);
 
-	res.status(200).json({ success: true, msg: blog });
+	res.status(200).json({ success: true, blog: blog });
 });
 
 //@desc     Update blog
@@ -41,7 +41,7 @@ exports.createBlog = asyncHandler(async (req, res, next) => {
 //@access   Private
 exports.updateBlog = asyncHandler(async (req, res, next) => {
 	const blogId = req.params.id;
-	const blog = await Blog.findByIdAndUpdate(blogId, req.body, {
+	let blog = await Blog.findById(blogId, req.body, {
 		new: true,
 		runValidators: true,
 	});
@@ -51,7 +51,18 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 			new ErrorResponse(`Blog not found with the id of ${req.params.id}`, 404)
 		);
 	}
-	res.status(200).json({ success: true, msg: blog });
+
+	if (blog.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(
+			new ErrorResponse(
+				`User ${req.user.id} is not authorized to edit this article`,
+				401
+			)
+		);
+	}
+
+	blog = await Blog.findByIdAndDelete(blogId);
+	res.status(200).json({ success: true, blog: blog });
 });
 
 //@desc     Delete blog
@@ -59,7 +70,7 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 //@access   Private
 exports.deleteBlog = asyncHandler(async (req, res, next) => {
 	const blogId = req.params.id;
-	const blog = await Blog.findByIdAndDelete(blogId);
+	let blog = await Blog.findById(blogId);
 
 	if (!blog) {
 		return next(
@@ -67,5 +78,16 @@ exports.deleteBlog = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	res.status(200).json({ success: true, mesg: blog });
+	if (blog.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(
+			new ErrorResponse(
+				`User ${req.user.id} is not authorized to delete this article`,
+				401
+			)
+		);
+	}
+
+	blog = await Blog.findByIdAndDelete(blogId);
+
+	res.status(200).json({ success: true, blog: blog });
 });

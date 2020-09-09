@@ -41,7 +41,7 @@ app.use('/api/v1/auth', authRoutes);
 //error handling middleware
 app.use(errorHandler);
 
-//Spin app the server
+//Spin server
 const server = app.listen(
 	PORT,
 	console.log(`Server running in ${process.env.NODE_ENV} ON PORT ${PORT}`)
@@ -49,6 +49,6 @@ const server = app.listen(
 
 //handle unhandled rejections
 process.on('unhandledRejection', (err, Promise) => {
-	console.log(`Error: err.message`);
+	console.log(`Error: ${err.message}`);
 	server.close(() => process.exit(1));
 });

@@ -1,4 +1,10 @@
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+
+const hashMail = (mail) => {
+	const hash = crypto.createHash('sha256').update(email).digest('hex');
+	return hash;
+};
 
 //hash entered email
 async function hashEnteredEmail(userEmail) {
@@ -7,4 +13,4 @@ async function hashEnteredEmail(userEmail) {
 	return userEmail;
 }
 
-module.exports = hashEnteredEmail;
+module.exports = hashMail;
