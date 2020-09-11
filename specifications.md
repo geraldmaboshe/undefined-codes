@@ -73,7 +73,7 @@ Create the backend for a personal blog and portfolio webiste. The frontend/UI wi
 - Admin only
 - Users can only be made admin by updating the database field manually
 
-## Security
+### Security
 
 - Encrypt passwords and reset tokens
 - Prevent cross site scripting - XSS
@@ -83,7 +83,7 @@ Create the backend for a personal blog and portfolio webiste. The frontend/UI wi
 - Add headers for security (helmet)
 - Use cors to make API public (for now)
 
-## Code Related Suggestions
+### Code Related Suggestions
 
 - NPM scripts for dev and production env
 - Config file for important constants
@@ -111,10 +111,57 @@ Create the backend for a personal blog and portfolio webiste. The frontend/UI wi
 - PATCH EDIT PROJECT api/v1/undefined/{id}
 - DELETE PROJECT api/v1/undefined/{id}
 
-## ROUTE STRUCTURE
+### ROUTE STRUCTURE
 
 - /api/v1/blogs
 - /api/v1/Portfolio
 - /api/v1/comments
 - /api/v1/auth
 - /api/v1/users
+
+### Publisher Functionality
+
+- Publisher can publish articles
+- Publisher can delete his articles
+- Publisher can update his article
+- Publisher can view comments on his article
+- Publisher can Can reply to comments
+- Publisher can manage his profile
+
+### Profile Management
+
+- Upload profile picture
+- Add github link
+- Add facebook link
+- Add LinkedIn Link
+- Add twitter handle
+- Change user name
+- Delete account
+
+### Functions on the API
+
+- create user account or publisher account
+- create article (publisher)
+- post comment on article (all users)
+- read articles (all users)
+- delete article (publisher)
+- edit article (publisher)
+- Retrieve publisher articles (publisher)
+- Filter articles (signed in user)
+- Upload picture (signed in user)
+- Upload profile picture (signed in user)
+- Add github link (signed in user)
+- Add facebook link (signed in user)
+- Add LinkedIn Link (signed in user)
+- Add twitter handle (signed in user)
+- Change user name (signed in user)
+- Delete account (signed in user)
+- reply to article (all users)
+- Post project (admin)
+- edit project (admin)
+- delete project (admin)
+- list projects (all users)
+- Contact admin (all users)
+- Update CV (admin)
+- see cv (all users)
+- download cv (all users)

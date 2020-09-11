@@ -3,6 +3,10 @@ const User = require('./User');
 
 const BlogSchema = new mongoose.Schema(
 	{
+		author: {
+			type: String,
+			required: true,
+		},
 		title: {
 			type: String,
 			required: [true, 'please add a title'],
@@ -21,7 +25,10 @@ const BlogSchema = new mongoose.Schema(
 			type: Date,
 			default: Date.now,
 		},
-		views: Number,
+		views: {
+			type: Number,
+			default: 0,
+		},
 		comments: {
 			type: mongoose.Schema.ObjectId,
 			ref: 'Comment',

@@ -5,9 +5,9 @@ const {
 	editComment,
 	deleteComment,
 	getComment,
-} = require('../controllers/comments');
+} = require('../../controllers/blog/comments');
 
-const { protect, authorize } = require('../middleware/auth.middleware');
+const { protect, authorize } = require('../../middleware/auth.middleware');
 
 router.post('/:blogId/comments', createComment);
 

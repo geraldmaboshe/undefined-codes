@@ -1,6 +1,6 @@
-const Comment = require('../models/Comment');
-const asyncHandler = require('../middleware/async');
-const ErrorResponse = require('../utils/errorResponse');
+const Comment = require('../../models/Comment');
+const asyncHandler = require('../../middleware/async');
+const ErrorResponse = require('../../utils/errorResponse');
 const { json } = require('express');
 
 //@desc     Get Single comment
@@ -25,9 +25,15 @@ exports.getComment = asyncHandler(async (req, res, next) => {
 //@access   Public
 exports.createComment = asyncHandler(async (req, res, next) => {
 	req.body.blog = req.params.blogId;
-	const data = req.body;
-	const comment = await Comment.create(data);
+	if (req.user) {
+		req.body.username = req.user.name;
+		req.body.email = req.user.email;
+		const comment = await Comment.create(req.body);
+		res.status(200).json({ success: true, comment: comment });
+		return next();
+	}
 
+	const comment = await Comment.create(req.body);
 	res.status(200).json({ success: true, comment: comment });
 	next();
 });
@@ -55,7 +61,7 @@ exports.editComment = asyncHandler(async (req, res, next) => {
 //@access   Admin
 exports.deleteComment = asyncHandler(async (req, res, next) => {
 	const commentId = req.params.commentId;
-	const deletedComment = Comment.findByIdAndDelete(commentid);
+	const deletedComment = Comment.findByIdAndDelete(commentId);
 
 	if (!deletedComment) {
 		return next(new ErrorResponse('Comment not found', 404));

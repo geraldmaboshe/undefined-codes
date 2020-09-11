@@ -40,7 +40,7 @@ exports.authorize = (...roles) => {
 		if (!roles.includes(req.user.role)) {
 			return next(
 				new ErrorResponse(
-					`User role '${req.user.role}' is not authorized to access this route, you need to be a publisher`,
+					`User role '${req.user.role}' is not authorized to access this route`,
 					403
 				)
 			);

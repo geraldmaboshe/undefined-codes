@@ -2,8 +2,20 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const { stringify } = require('querystring');
 
 const UserSchema = new mongoose.Schema({
+	about: {
+		type: String,
+		maxlength: 250,
+		minlength: [5, 'A little bit more please'],
+		default:
+			'a little something about who you are, what you do and what your interests are will go a long way',
+	},
+	photo: {
+		type: String,
+		default: 'Hi!.jpg',
+	},
 	email: {
 		type: String,
 		match: [
@@ -20,7 +32,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	role: {
 		type: String,
-		enum: ['user', 'publisher'],
+		enum: ['user'],
 		default: 'user',
 	},
 	password: {
@@ -29,6 +41,23 @@ const UserSchema = new mongoose.Schema({
 		minlength: [8, 'password should be atleast 8 characters long'],
 		select: false,
 	},
+	github: {
+		type: String,
+		default: 'no link',
+	},
+	facebook: {
+		type: String,
+		default: 'no link',
+	},
+	linkedin: {
+		type: String,
+		default: 'no link',
+	},
+	twitter: {
+		type: String,
+		default: 'no link',
+	},
+	website: String,
 	resetPasswordToken: String,
 	resetPasswordExpire: Date,
 	createdAt: {

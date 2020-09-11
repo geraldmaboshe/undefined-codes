@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Home</title>
+	</head>
+	<body>
+		<form method="post">
+			<label for="fname">name</label>
+			<input type="text" id="fname" name="fname" /><br /><br />
+			<label for="lname">email</label>
+			<input type="email" id="lname" name="lname" /><br /><br />
+			<label for="lname">password</label>
+			<input type="password" id="lname" name="lname" /><br /><br />
+			<button
+				action="http://www.localhost:8000/api/v1/auth/register"
+				value="Submit"
+			>
+				submit
+			</button>
+		</form>
+	</body>
+</html>
