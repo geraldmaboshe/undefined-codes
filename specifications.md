@@ -140,7 +140,7 @@ Create the backend for a personal blog and portfolio webiste. The frontend/UI wi
 
 ### Functions on the API
 
-- create user account or publisher account
+<!-- - create user account or publisher account
 - create article (publisher)
 - post comment on article (all users)
 - read articles (all users)
@@ -155,9 +155,10 @@ Create the backend for a personal blog and portfolio webiste. The frontend/UI wi
 - Add LinkedIn Link (signed in user)
 - Add twitter handle (signed in user)
 - Change user name (signed in user)
-- Delete account (signed in user)
+- Delete account (signed in user) -->
+
 - reply to article (all users)
-- Post project (admin)
+<!-- - Post project (admin) -->
 - edit project (admin)
 - delete project (admin)
 - list projects (all users)

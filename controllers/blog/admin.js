@@ -15,15 +15,25 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
 	res.status(200).json({ success: true, total: users.length, data: users });
 });
 
-//@desc     Get all users
-//@route    GET /api/v1/admin/users
+//@desc     DELETE all users
+//@route    DELETE /api/v1/admin/users
 //@access   Admin
 exports.deleteUser = asyncHandler(async (req, res, next) => {
 	const userId = req.params.id;
 	if (req.user.role !== 'admin') {
 		return next(new ErrorResponse(`You have no root access`, 403));
 	}
-	const users = await User.findByIdAndDelete(userId).populate('blogs');
+
+	const user = await User.findById(userId);
+
+	if (!user) {
+		return next(
+			new ErrorResponse(`User with id ${userId} could not be found`, 404)
+		);
+	}
+
+	await User.findByIdAndDelete(userId).populate('blogs');
+
 	res.status(200).json({ success: true, data: users });
 });
 
@@ -35,7 +45,7 @@ exports.deleteBlog = asyncHandler(async (req, res, next) => {
 	if (req.user.role !== 'admin') {
 		return next(new ErrorResponse(`You have no root access`, 403));
 	}
-	const blog = await User.findByIdAndDelete(blogId);
+	const blog = await Blog.findByIdAndDelete(blogId);
 	res.status(200).json({ success: true, data: blog });
 });
 
@@ -47,6 +57,6 @@ exports.deleteComment = asyncHandler(async (req, res, next) => {
 	if (req.user.role !== 'admin') {
 		return next(new ErrorResponse(`You have no root access`, 403));
 	}
-	const comment = await User.findByIdAndDelete(commentId);
+	const comment = await Comment.findByIdAndDelete(commentId);
 	res.status(200).json({ success: true, data: comment });
 });

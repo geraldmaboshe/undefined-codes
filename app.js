@@ -19,7 +19,9 @@ const commentRoutes = require('./routes/blog/comments');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/blog/user');
 const profileRoutes = require('./routes/blog/profile');
-const adminRoutes = require('./routes/blog/admin');
+const adminBlogRoutes = require('./routes/blog/admin');
+const adminPortfolioRoutes = require('./routes/portfolio/admin');
+const publicPortfolioRoutes = require('./routes/portfolio/public');
 
 //body parser
 app.use(express.json());
@@ -49,7 +51,9 @@ app.use('/api/v1', commentRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user/blog', userRoutes);
 app.use('/api/v1/user/profile', profileRoutes);
-app.use('/api/v1/admin/', adminRoutes);
+app.use('/api/v1/admin/', adminBlogRoutes);
+app.use('/api/v1/admin/portfolio', adminPortfolioRoutes);
+app.use('/api/v1/portfolio/projects', publicPortfolioRoutes);
 
 //error handling middleware
 app.use(errorHandler);

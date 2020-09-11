@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const projectSchema = new mongoose.Schema({
 	image: {
 		type: String,
-		default: 'no-photo.jpg',
+		required: [true, 'add photo'],
 	},
 	title: {
 		type: String,
